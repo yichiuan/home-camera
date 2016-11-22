@@ -14,6 +14,7 @@ import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.yichiuan.homecamera.R;
+import com.yichiuan.homecamera.util.NetworkUtil;
 
 
 public class MonitorFragment extends Fragment implements MonitorContract.View {
@@ -172,14 +173,21 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
     private void sendReconnectMessage() {
         showToastTips("Reconnecting...");
         mLoadingView.setVisibility(View.VISIBLE);
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);
+        handler.removeCallbacksAndMessages(null);
+        handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);
     }
 
-    protected Handler mHandler = new Handler(Looper.getMainLooper()) {
+    protected Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what != MESSAGE_ID_RECONNECTING) {
+                return;
+            }
+
+            // TODO check the live stream is available
+
+            if (!NetworkUtil.isNetworkAvailable(getActivity().getApplicationContext())) {
+                sendReconnectMessage();
                 return;
             }
 
