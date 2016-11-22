@@ -17,8 +17,19 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
+            useProguard false
+
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     aaptOptions {
@@ -32,9 +43,16 @@ dependencies {
 
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
 
+    compile "com.jakewharton.timber:timber:${libraries.timber}"
+
     // ButterKnife
     compile "com.jakewharton:butterknife:${libraries.butterknife}"
     apt "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+
+    // LeakCanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${libraries.leakcanary}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libraries.leakcanary}"
 
     // RxJava
     compile "io.reactivex:rxjava:${libraries.rxjava}"
