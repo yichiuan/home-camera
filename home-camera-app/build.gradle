@@ -21,3 +21,22 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    libraries = [
+            supportVersion   : "25.0.1",
+            butterknife      : "8.4.0",
+            leakcanary       : "1.5",
+            stetho           : "1.4.1",
+
+            // for RxJava
+            rxjava           : "1.2.2",
+            rxandroid        : "1.2.1",
+
+            // for test
+            junit            : "4.12",
+            testrunner       : "0.5",
+            espresso         : "2.2.2",
+            mockito          : "2.2.15",
+    ]
+}

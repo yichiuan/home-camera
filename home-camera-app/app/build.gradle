@@ -25,11 +25,19 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${libraries.supportVersion}"
 
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
+
+    // RxJava
+    compile "io.reactivex:rxjava:${libraries.rxjava}"
+    compile "io.reactivex:rxandroid:${libraries.rxandroid}"
+
+    // Dependencies for local unit tests
+    testCompile "junit:junit:${libraries.junit}"
+
+    // Android Testing Support Library
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${libraries.espresso}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
