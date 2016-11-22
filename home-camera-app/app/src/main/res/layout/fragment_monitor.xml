@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/videoview_background">
 
     <com.pili.pldroid.player.widget.PLVideoTextureView
         android:id="@+id/VideoView"
@@ -23,5 +25,44 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/border_top"
+        android:layout_margin="8dp"
+        android:paddingTop="8dp">
+
+        <Button
+            android:text="Say Something"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/background_light"
+            android:minHeight="26dp"
+            android:minWidth="26dip"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
+
+        <Button
+            android:text="..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button4"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:background="@drawable/rounded_button"
+            android:minHeight="26dip"
+            android:minWidth="26dip"
+            android:layout_marginLeft="8dp"
+            android:textColor="@android:color/background_light"
+            android:textAlignment="center"
+            android:textStyle="normal|bold" />
     </LinearLayout>
 </FrameLayout>
