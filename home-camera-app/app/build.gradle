@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 25
@@ -28,6 +31,10 @@ dependencies {
     compile "com.android.support:appcompat-v7:${libraries.supportVersion}"
 
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
+
+    // ButterKnife
+    compile "com.jakewharton:butterknife:${libraries.butterknife}"
+    apt "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
 
     // RxJava
     compile "io.reactivex:rxjava:${libraries.rxjava}"
