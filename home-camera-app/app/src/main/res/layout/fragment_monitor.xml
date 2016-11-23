@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/videoview_background">
 
     <com.pili.pldroid.player.widget.PLVideoTextureView
-        android:id="@+id/VideoView"
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
     <LinearLayout
-        android:id="@+id/LoadingView"
+        android:id="@+id/loading_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -23,46 +21,91 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <ViewSwitcher
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:id="@+id/switcher"
         android:background="@drawable/border_top"
         android:layout_margin="8dp"
         android:paddingTop="8dp">
 
-        <Button
-            android:text="Say Something"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
-            android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:background="@drawable/rounded_button"
-            android:textColor="@android:color/background_light"
-            android:minHeight="26dp"
-            android:minWidth="26dip"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp" />
+            android:id="@+id/first_layout"
+            android:orientation="horizontal">
 
-        <Button
-            android:text="..."
-            android:layout_width="wrap_content"
+            <Button
+                android:text="@string/say_something"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_saysomething"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_gravity="start"
+                android:textAllCaps="false"
+                android:background="@drawable/rounded_button"
+                android:textColor="@android:color/background_light"
+                android:minHeight="26dp"
+                android:minWidth="26dip"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textAlignment="textStart" />
+
+            <Button
+                android:text="..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_menu"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:background="@drawable/rounded_button"
+                android:minHeight="26dip"
+                android:minWidth="26dip"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:textColor="@android:color/background_light"
+                android:textAlignment="center"
+                android:textStyle="normal|bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:background="@drawable/rounded_button"
-            android:minHeight="26dip"
-            android:minWidth="26dip"
-            android:layout_marginLeft="8dp"
-            android:textColor="@android:color/background_light"
-            android:textAlignment="center"
-            android:textStyle="normal|bold" />
-    </LinearLayout>
+            android:id="@+id/talk_layout">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:ems="10"
+                android:id="@+id/edittext_message"
+                android:layout_weight="1"
+                android:background="@android:color/background_light" />
+
+            <Button
+                android:text="X"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_close"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:minHeight="26dp"
+                android:minWidth="26dip"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:textStyle="normal|bold"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </ViewSwitcher>
+
 </FrameLayout>

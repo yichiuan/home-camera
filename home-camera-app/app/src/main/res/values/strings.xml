@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Home Camera</string>
+    <string name="say_something">Say Something</string>
 </resources>

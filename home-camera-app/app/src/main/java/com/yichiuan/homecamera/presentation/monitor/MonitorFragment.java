@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
@@ -16,17 +19,40 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.yichiuan.homecamera.R;
 import com.yichiuan.homecamera.util.NetworkUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MonitorFragment extends Fragment implements MonitorContract.View {
 
     private static final int MESSAGE_ID_RECONNECTING = 0x01;
 
+    @BindView(R.id.video_view)
+    PLVideoTextureView videoView;
+
+    @BindView(R.id.loading_view)
+    View loadingView;
+
+    @BindView(R.id.btn_saysomething)
+    Button btnSaysomething;
+
+    @BindView(R.id.btn_menu)
+    Button btnMenu;
+
+    @BindView(R.id.edittext_message)
+    EditText edittextMessage;
+
+    @BindView(R.id.btn_close)
+    Button btnClose;
+
+    @BindView(R.id.switcher)
+    ViewSwitcher switcher;
+
     private MonitorContract.Presenter presenter;
 
-    private PLVideoTextureView mVideoView;
-    private View mLoadingView;
-
-    private String mVideoPath = "rtmp://192.168.1.11/rtmp/live";
+    private static final String DEFAULT_TEST_URL = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
+    private static final String HOME_CAM_URL = "rtmp://192.168.1.11/rtmp/live";
+    private String videoPath = DEFAULT_TEST_URL;
 
     public static MonitorFragment newInstance() {
         MonitorFragment fragment = new MonitorFragment();
@@ -36,11 +62,22 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_monitor, container, false);
+        ButterKnife.bind(this, root);
 
-        mVideoView = (PLVideoTextureView) root.findViewById(R.id.VideoView);
-        mLoadingView = root.findViewById(R.id.LoadingView);
-        mVideoView.setBufferingIndicator(mLoadingView);
-        mLoadingView.setVisibility(View.VISIBLE);
+        initVideoView();
+
+        switcher.setDisplayedChild(0);
+
+        btnSaysomething.setOnClickListener((v) -> switcher.showNext());
+
+        btnClose.setOnClickListener((v) -> switcher.showNext());
+
+        return root;
+    }
+
+    private void initVideoView() {
+        videoView.setBufferingIndicator(loadingView);
+        loadingView.setVisibility(View.VISIBLE);
 
 
         AVOptions options = new AVOptions();
@@ -62,13 +99,10 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
         // whether start play automatically after prepared, default value is 1
         options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
 
-        mVideoView.setAVOptions(options);
+        videoView.setAVOptions(options);
 
-//        mVideoView.setOnCompletionListener(mOnCompletionListener);
-        mVideoView.setOnErrorListener(mOnErrorListener);
-        mVideoView.setVideoPath(mVideoPath);
-
-        return root;
+        videoView.setOnErrorListener(onErrorListener);
+        videoView.setVideoPath(videoPath);
     }
 
     @Override
@@ -86,26 +120,27 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mVideoView.start();
+        videoView.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mVideoView.pause();
+        videoView.pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mVideoView.stopPlayback();
+        videoView.stopPlayback();
     }
 
     @Override
     public void setPresenter(MonitorContract.Presenter presenter) {
         this.presenter = presenter;
     }
-    private PLMediaPlayer.OnErrorListener mOnErrorListener = new PLMediaPlayer.OnErrorListener() {
+
+    private PLMediaPlayer.OnErrorListener onErrorListener = new PLMediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(PLMediaPlayer mp, int errorCode) {
             boolean isNeedReconnect = false;
@@ -166,13 +201,13 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
     private void showToastTips(final String tips) {
 
         Toast.makeText(getActivity().getApplicationContext(),
-                       tips,
-                       Toast.LENGTH_SHORT).show();
+                tips,
+                Toast.LENGTH_SHORT).show();
     }
 
     private void sendReconnectMessage() {
         showToastTips("Reconnecting...");
-        mLoadingView.setVisibility(View.VISIBLE);
+        loadingView.setVisibility(View.VISIBLE);
         handler.removeCallbacksAndMessages(null);
         handler.sendMessageDelayed(handler.obtainMessage(MESSAGE_ID_RECONNECTING), 500);
     }
@@ -191,8 +226,8 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
                 return;
             }
 
-            mVideoView.setVideoPath(mVideoPath);
-            mVideoView.start();
+            videoView.setVideoPath(videoPath);
+            videoView.start();
         }
     };
 }
