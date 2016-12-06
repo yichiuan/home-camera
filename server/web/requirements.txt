@@ -1,0 +1,7 @@
+Flask==0.11.1
+Flask-SQLAlchemy==2.1
+Flask-HTTPAuth==3.2.1
+Flask-Migrate==2.0.1
+sendgrid==3.6.3
+gunicorn==19.6.0
+meinheld==0.6.1

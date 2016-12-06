@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile-rpi
+    command: gunicorn -w 2 -k egg:meinheld#gunicorn_worker -b :5000 app.wsgi:app
+    volumes:
+      - ./web/:/web
+    ports:
+      - "5000:5000"
+    restart: always
