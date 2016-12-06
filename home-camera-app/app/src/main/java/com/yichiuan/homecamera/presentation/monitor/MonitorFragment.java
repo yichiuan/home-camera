@@ -52,7 +52,7 @@ public class MonitorFragment extends Fragment implements MonitorContract.View {
 
     private static final String DEFAULT_TEST_URL = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
     private static final String HOME_CAM_URL = "rtmp://192.168.1.11/rtmp/live";
-    private String videoPath = DEFAULT_TEST_URL;
+    private String videoPath = HOME_CAM_URL;
 
     public static MonitorFragment newInstance() {
         MonitorFragment fragment = new MonitorFragment();

@@ -5,7 +5,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.yichiuan.homecamera"
         minSdkVersion 16
@@ -40,6 +40,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${libraries.supportVersion}"
+    compile "com.android.support:design:${libraries.supportVersion}"
 
     compile files('libs/pldroid-player-1.4.0.jar')
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
