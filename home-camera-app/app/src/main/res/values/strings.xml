@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Home Camera</string>
     <string name="say_something">Say Something</string>
+
+    <!--Login UI-->
+    <string name="login_email_hint" >Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_login">Login</string>
 </resources>
