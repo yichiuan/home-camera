@@ -3,7 +3,7 @@
     <string name="say_something">Say Something</string>
 
     <!--Login UI-->
-    <string name="login_email_hint" >Email</string>
+    <string name="login_username_hint">Name</string>
     <string name="login_password_hint">Password</string>
     <string name="login_login">Login</string>
 </resources>
