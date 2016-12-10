@@ -18,7 +18,7 @@
 
 
 # For PLDroidPlayer
--keep class com.pili.pldroid.player.** { *; }
+#-keep class com.pili.pldroid.player.** { *; }
 -keep class tv.danmaku.ijk.media.player.** {*;}
 
 # Rxjava
@@ -39,3 +39,25 @@
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
+
+
+# okio
+-dontwarn okio.**
+
+# Retrofit2
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
+
+# Need this when using proguard-android-optimize.txt
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+# If Retrofit2 >= 2.2, don't need this
+-dontwarn retrofit2.adapter.rxjava.CompletableHelper$**

@@ -18,10 +18,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField 'String', 'API_SERVER_URL', '"http://172.18.112.10/"'
-        }
-        release {
-            minifyEnabled false
+            minifyEnabled true
             // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
             useProguard false
 
@@ -29,6 +26,14 @@ android {
             versionNameSuffix '-debug'
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField 'String', 'API_SERVER_URL', '"http://172.18.112.10/"'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            buildConfigField 'String', 'API_SERVER_URL', '"http://172.18.112.10/"'
         }
     }
 
@@ -42,12 +47,17 @@ android {
     }
 }
 
+dexcount {
+    format = "yaml"
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${libs.supportLib}"
     compile "com.android.support:design:${libs.supportLib}"
 
     compile files('libs/pldroid-player-1.4.0.jar')
+    compile 'com.qiniu:happy-dns:0.2.+'
     compile 'com.qiniu.pili:pili-android-qos:0.8.+'
 
     compile "com.jakewharton.timber:timber:${libs.timber}"
