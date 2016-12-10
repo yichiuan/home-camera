@@ -8,7 +8,8 @@ WORKDIR /web
 ADD requirements.txt /web
 RUN pip3 install -r requirements.txt
 
+ENV FLASK_APP app/wsgi.py
+
 VOLUME ["/web"]
 
-# Expose ports.
 EXPOSE 5000

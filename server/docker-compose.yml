@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   web:
     build: ./web
@@ -8,6 +8,12 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    environment:
+      - FLASK_APP=${FLASK_APP:-admin.py}
+      - FLASK_CONFIG=${FLASK_CONFIG:-development}
+    networks:
+      app_net:
+        ipv4_address: 172.18.112.5
   proxy:
     build: ./nginx
     ports:
@@ -17,3 +23,14 @@ services:
     restart: always
     depends_on:
       - web
+    networks:
+      app_net:
+        ipv4_address: 172.18.112.10
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.112.0/24
+        gateway: 172.18.112.1

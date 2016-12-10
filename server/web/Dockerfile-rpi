@@ -1,5 +1,5 @@
 # Pull base image
-FROM resin/rpi-raspbian:jessie-20161123
+FROM resin/rpi-raspbian:jessie-20161207
 MAINTAINER Jason Yang
 
 # Install dependencies
@@ -20,6 +20,8 @@ WORKDIR /web
 
 ADD requirements.txt /web
 RUN pip3 install -r requirements.txt
+
+ENV FLASK_APP app/wsgi.py
 
 VOLUME ["/web"]
 

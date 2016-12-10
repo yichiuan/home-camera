@@ -83,3 +83,12 @@ class User(db.Model):
             'username': self.username,
             'created_at': self.created_at
         }
+        
+    @staticmethod
+    def create_user(email, username, password):
+        user = User(email=email,
+                    username=username,
+                    password=password)
+        user.confirmed = True
+        db.session.add(user)
+        db.session.commit()
