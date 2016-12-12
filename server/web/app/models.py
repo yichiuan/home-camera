@@ -81,7 +81,7 @@ class User(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'created_at': self.created_at
+            'email': self.email
         }
         
     @staticmethod

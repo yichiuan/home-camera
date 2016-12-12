@@ -38,11 +38,12 @@ def create_app(config_name=None):
 
     from app.auth import token_auth
 
-    @app.route("/user/<username>")
+    @app.route("/user/me")
     @token_auth.login_required
-    def get_user(username):
+    def get_user():
         from flask import g, jsonify
-        return jsonify(user=g.current_user.to_dict())
+        app.logger.info(g.current_user.to_dict())
+        return jsonify(g.current_user.to_dict())
 
     return app
 
