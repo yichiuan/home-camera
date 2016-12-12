@@ -1,12 +1,16 @@
 package com.yichiuan.homecamera.data;
 
+import android.content.Context;
 import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yichiuan.homecamera.BuildConfig;
+import com.yichiuan.homecamera.data.local.UserPreferences;
+import com.yichiuan.homecamera.data.remote.AuthenticationInterceptor;
 import com.yichiuan.homecamera.data.remote.UserService;
 import com.yichiuan.homecamera.data.remote.model.Token;
+import com.yichiuan.homecamera.data.remote.model.User;
 import com.yichiuan.homecamera.util.StethoHelper;
 
 import java.io.UnsupportedEncodingException;
@@ -25,11 +29,19 @@ public class UserRepository {
 
     private static final int ONNECT_TIMEOUT_SECINDS = 10;
 
-    private static final String USER_API_BASE= BuildConfig.API_SERVER_URL;
+    private static final String USER_API_BASE = BuildConfig.API_SERVER_URL;
+
+    private static UserRepository INSTANCE = null;
+
+    private UserPreferences userPreferences;
 
     private UserService userService;
 
-    private UserRepository() {
+    private AuthenticationInterceptor authenticationInterceptor = new AuthenticationInterceptor();
+
+    private UserRepository(Context context) {
+
+        userPreferences = new UserPreferences(context);
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 
@@ -37,7 +49,7 @@ public class UserRepository {
             HttpLoggingInterceptor logging =
                     new HttpLoggingInterceptor((message) ->
                             Timber.tag("UserRepository").d(message));
-            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             httpClientBuilder.addInterceptor(logging);
 
@@ -45,6 +57,7 @@ public class UserRepository {
         }
 
         httpClientBuilder.connectTimeout(ONNECT_TIMEOUT_SECINDS, TimeUnit.SECONDS);
+        httpClientBuilder.addInterceptor(authenticationInterceptor);
 
         OkHttpClient client = httpClientBuilder.build();
 
@@ -62,12 +75,11 @@ public class UserRepository {
         userService = retrofit.create(UserService.class);
     }
 
-    private static class SingletonHolder {
-        private static final UserRepository INSTANCE = new UserRepository();
-    }
-
-    public static UserRepository getInstance() {
-        return SingletonHolder.INSTANCE;
+    public static UserRepository getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new UserRepository(context);
+        }
+        return INSTANCE;
     }
 
     public Observable<Token> login(String username, String password) {
@@ -82,5 +94,18 @@ public class UserRepository {
         }
 
         return userService.login(credentials);
+    }
+
+    public Observable<User> getUser() {
+        return userService.getUser();
+    }
+
+    public boolean isLoggedIn() {
+        return userPreferences.isLoggedIn();
+    }
+
+    public void saveToken(String token) {
+        authenticationInterceptor.setupCredentialsWith(token);
+        userPreferences.setAccessToken(token);
     }
 }

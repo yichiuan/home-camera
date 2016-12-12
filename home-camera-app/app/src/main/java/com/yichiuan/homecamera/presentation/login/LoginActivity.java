@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.yichiuan.homecamera.Injection;
 import com.yichiuan.homecamera.R;
 import com.yichiuan.homecamera.presentation.MainActivity;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        presenter = new LoginPresenter(this);
+        presenter = new LoginPresenter(this, Injection.provideTasksRepository(this));
 
         loginBtn.setOnClickListener((v) -> {
             loginBtn.setEnabled(false);

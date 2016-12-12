@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.yichiuan.homecamera.Injection;
 import com.yichiuan.homecamera.R;
+import com.yichiuan.homecamera.presentation.login.LoginActivity;
 import com.yichiuan.homecamera.presentation.monitor.MonitorActivity;
 
 import butterknife.BindView;
@@ -20,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Injection.provideTasksRepository(this).isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |

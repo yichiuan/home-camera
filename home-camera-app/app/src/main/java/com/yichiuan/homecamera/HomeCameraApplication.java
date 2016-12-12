@@ -5,6 +5,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.yichiuan.homecamera.util.StethoHelper;
 
 import timber.log.Timber;
 
@@ -40,6 +41,11 @@ public class HomeCameraApplication extends Application {
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new FakeCrashReportTree());
+        }
+
+        // Stetho init
+        if (BuildConfig.DEBUG) {
+            StethoHelper.init(this);
         }
     }
 
