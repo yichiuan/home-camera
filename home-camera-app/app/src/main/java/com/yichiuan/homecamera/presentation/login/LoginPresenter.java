@@ -1,7 +1,7 @@
 package com.yichiuan.homecamera.presentation.login;
 
 import com.yichiuan.homecamera.data.UserRepository;
-import com.yichiuan.homecamera.data.remote.model.User;
+import com.yichiuan.homecamera.data.remote.model.Token;
 import com.yichiuan.homecamera.presentation.base.BasePresenter;
 
 import rx.Subscriber;
@@ -28,12 +28,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
 
         addSubscription(userRepository.login(username, password)
                 .subscribeOn(Schedulers.io())
-                .flatMap(token -> {
-                    userRepository.saveToken(token.token());
-                    return userRepository.getUser();
-                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new Subscriber<Token>() {
                     @Override
                     public void onCompleted() {}
 
@@ -45,8 +41,9 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                     }
 
                     @Override
-                    public void onNext(User user) {
-                        Timber.i("user : " + user.toString());
+                    public void onNext(Token token) {
+                        Timber.i("token = " + token.toString());
+                        userRepository.saveToken(token.token());
                         loginView.setProgressIndicator(false);
                         loginView.enterMainUi();
                     }

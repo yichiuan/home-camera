@@ -1,5 +1,7 @@
 package com.yichiuan.homecamera.data.remote;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -10,6 +12,12 @@ import okhttp3.Response;
 public class AuthenticationInterceptor implements Interceptor {
     private String credentials = null;
     private boolean hasToken = false;
+
+    public AuthenticationInterceptor(String token) {
+        if (!TextUtils.isEmpty(token)) {
+            setupCredentialsWith(token);
+        }
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {

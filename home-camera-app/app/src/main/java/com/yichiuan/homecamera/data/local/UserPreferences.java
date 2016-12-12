@@ -25,6 +25,10 @@ public class UserPreferences {
         return isLoggedIn;
     }
 
+    public String getAccessToken() {
+        return preferences.getString(KEY_ACCESS_TOKEN, null);
+    }
+
     public void setAccessToken(String accessToken) {
         if (!TextUtils.isEmpty(accessToken)) {
             this.accessToken = accessToken;

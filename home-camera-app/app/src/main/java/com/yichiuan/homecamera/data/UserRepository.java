@@ -37,7 +37,7 @@ public class UserRepository {
 
     private UserService userService;
 
-    private AuthenticationInterceptor authenticationInterceptor = new AuthenticationInterceptor();
+    private AuthenticationInterceptor authenticationInterceptor;
 
     private UserRepository(Context context) {
 
@@ -57,6 +57,7 @@ public class UserRepository {
         }
 
         httpClientBuilder.connectTimeout(ONNECT_TIMEOUT_SECINDS, TimeUnit.SECONDS);
+        authenticationInterceptor = new AuthenticationInterceptor(userPreferences.getAccessToken());
         httpClientBuilder.addInterceptor(authenticationInterceptor);
 
         OkHttpClient client = httpClientBuilder.build();

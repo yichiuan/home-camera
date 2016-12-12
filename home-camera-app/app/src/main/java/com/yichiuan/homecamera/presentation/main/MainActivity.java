@@ -1,23 +1,17 @@
-package com.yichiuan.homecamera.presentation;
+package com.yichiuan.homecamera.presentation.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 import com.yichiuan.homecamera.Injection;
 import com.yichiuan.homecamera.R;
 import com.yichiuan.homecamera.presentation.login.LoginActivity;
-import com.yichiuan.homecamera.presentation.monitor.MonitorActivity;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-    @BindView(R.id.button_start)
-    Button buttonStart;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
-        buttonStart.setOnClickListener((v) -> {
-            Intent intent = new Intent(this, MonitorActivity.class);
-            startActivity(intent);
-        });
-    }
+        MainFragment fragment =
+                (MainFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        if (fragment == null) {
+            fragment = MainFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_frame, fragment)
+                    .commit();
+        }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        presenter = new MainPresenter(fragment, Injection.provideTasksRepository(this));
     }
 }

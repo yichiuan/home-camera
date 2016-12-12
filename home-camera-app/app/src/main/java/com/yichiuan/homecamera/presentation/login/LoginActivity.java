@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.yichiuan.homecamera.Injection;
 import com.yichiuan.homecamera.R;
-import com.yichiuan.homecamera.presentation.MainActivity;
+import com.yichiuan.homecamera.presentation.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     private LoginContract.Presenter presenter;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
