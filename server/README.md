@@ -3,7 +3,7 @@
 ## Initialize
 
 1. `docker-compose build`
-2. `docker-compose run web flask create_db`
+2. `docker-compose run --rm web flask create_db`
 
 ## Run development server
 

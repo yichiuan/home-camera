@@ -27,10 +27,6 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    @app.cli.command()
-    def create_db():
-        db.create_all()
-
     @app.route("/")
     def hello():
         return "Hello World!"

@@ -4,9 +4,20 @@ import os
 
 import click
 
-from app import create_app
+from app import create_app, db
 
 application = app = create_app(os.environ.get('FLASK_CONFIG', 'production'))
+
+
+@app.cli.command()
+def create_db():
+    database_uri = app.config['SQLALCHEMY_DATABASE_URI']
+
+    if database_uri.startswith('sqlite:///'):
+        dir_path = os.path.dirname(database_uri[len('sqlite:///'):])
+        os.makedirs(dir_path, exist_ok=True)
+
+    db.create_all()
 
 
 @app.cli.group()
