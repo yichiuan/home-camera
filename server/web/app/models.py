@@ -12,8 +12,8 @@ class User(db.Model):
     """The User model."""
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(32), nullable=False, unique=True, index=True)
+    email = db.Column(db.String(255), unique=True, index=True)
+    username = db.Column(db.String(16), nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
     created_at = db.Column(db.Integer, default=int(time.time()))
     confirmed = db.Column(db.Boolean, default=False)

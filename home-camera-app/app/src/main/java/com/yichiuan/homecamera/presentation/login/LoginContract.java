@@ -1,12 +1,14 @@
 package com.yichiuan.homecamera.presentation.login;
 
+import android.support.annotation.StringRes;
+
 import com.yichiuan.homecamera.presentation.base.BaseView;
 import com.yichiuan.homecamera.presentation.base.MvpPresenter;
 
 public interface LoginContract {
     interface View extends BaseView<Presenter> {
         void setProgressIndicator(boolean active);
-        void showErrorMessage(String message);
+        void showErrorMessage(@StringRes int resId);
         void enterMainUi();
     }
 

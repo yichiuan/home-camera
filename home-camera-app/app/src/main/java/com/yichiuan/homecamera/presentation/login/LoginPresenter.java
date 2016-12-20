@@ -1,5 +1,6 @@
 package com.yichiuan.homecamera.presentation.login;
 
+import com.yichiuan.homecamera.R;
 import com.yichiuan.homecamera.data.UserRepository;
 import com.yichiuan.homecamera.data.remote.model.Token;
 import com.yichiuan.homecamera.presentation.base.BasePresenter;
@@ -11,7 +12,7 @@ import timber.log.Timber;
 
 
 public class LoginPresenter extends BasePresenter implements LoginContract.Presenter {
-    private static final String TAG = "LoginPresenter";
+    private static final String LOG_TAG = "LoginPresenter";
     private final LoginContract.View loginView;
     private final UserRepository userRepository;
 
@@ -19,7 +20,6 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         this.loginView = loginView;
         this.userRepository = userRepository;
         loginView.setPresenter(this);
-        Timber.tag(TAG);
     }
 
     @Override
@@ -35,14 +35,14 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e);
+                        Timber.tag(LOG_TAG).e(e);
                         loginView.setProgressIndicator(false);
-                        loginView.showErrorMessage("Login failed");
+                        loginView.showErrorMessage(R.string.login_error_message);
                     }
 
                     @Override
                     public void onNext(Token token) {
-                        Timber.i("token = " + token.toString());
+                        Timber.tag(LOG_TAG).i("token = " + token.toString());
                         userRepository.saveToken(token.token());
                         loginView.setProgressIndicator(false);
                         loginView.enterMainUi();

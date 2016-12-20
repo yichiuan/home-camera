@@ -5,7 +5,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.yichiuan.homecamera"
         minSdkVersion 16
@@ -94,6 +94,7 @@ dependencies {
     // RxJava
     compile "io.reactivex:rxjava:${libs.rxjava}"
     compile "io.reactivex:rxandroid:${libs.rxandroid}"
+    compile "com.jakewharton.rxbinding:rxbinding:${libs.rxbinding}"
 
     // Stetho
     debugCompile "com.facebook.stetho:stetho:${libs.stetho}"
